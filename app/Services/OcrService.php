@@ -7,7 +7,7 @@ use thiagoalessio\TesseractOCR\TesseractOCR;
 class OcrService
 {
     private $tesseractPath = 'C:\Program Files\Tesseract-OCR\tesseract.exe';
-    private $popplerPath = 'C:\poppler-25.12.0\Library\bin\pdftoppm.exe';
+    private $popplerPath = 'C:\Putra\External\Client\Mandom Indonesia\poppler-25.12.0\Library\bin\pdftoppm.exe';
 
     public function process($pdfPath, $outputFolder)
     {
@@ -16,7 +16,7 @@ class OcrService
         }
 
         // Convert PDF → Image
-        $command = "\"{$this->popplerPath}\" -jpeg -r 400 \"$pdfPath\" \"$outputFolder/page\"";
+        $command = "\"{$this->popplerPath}\" -jpeg -r 600 \"$pdfPath\" \"$outputFolder/page\"";
         exec($command);
 
         $text = "";
@@ -24,7 +24,7 @@ class OcrService
         foreach (glob($outputFolder . "/page*.jpg") as $img) {
             $text .= (new TesseractOCR($img))
                 ->executable($this->tesseractPath)
-                ->lang('eng')
+                ->lang('eng+jpn')
                 ->psm(4)
                 ->oem(1)
                 ->run();
